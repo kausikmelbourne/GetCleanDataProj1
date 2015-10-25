@@ -61,7 +61,7 @@ Subset for mean and standard deviation features
     #Identify subset of variables for mean and standard deviation
     feat_mn <- feat[grep("mean", feat$V2), 1 ]
     feat_std <- feat[grep("std", feat$V2), 1 ]
-    feat_mn_std <- c(feat_mn, feat_std)
+    feat_mn_std <- c(1,2,(feat_mn+2), (feat_std+2))
     all_data_mn_std <- all_data[,feat_mn_std]
 
 Summarise by Subject and Activity
@@ -73,50 +73,55 @@ Summarise by Subject and Activity
                            FUN = mean)
     names(tidy_data)[1] <- "Subject"
     names(tidy_data)[2] <- "Activity"
+    names(tidy_data) <- gsub("-","",names(tidy_data))
+    names(tidy_data) <- gsub("\\(\\)","",names(tidy_data))
+    names(tidy_data) <- gsub(",","",names(tidy_data))
 
     write.table(tidy_data, file = "tidy_data.txt", row.name=FALSE )
 
-The fine contains the features with the following labels -
+The file contains the following features for mean and standard deviation
+-
 
     names(tidy_data)
 
-    ##  [1] "Subject"                          "Activity"                        
-    ##  [3] "tBodyAcc-mean()-X"                "tBodyAcc-correlation()-X,Z"      
-    ##  [5] "tBodyAcc-correlation()-Y,Z"       "tGravityAcc-mean()-X"            
-    ##  [7] "tGravityAcc-correlation()-X,Z"    "tGravityAcc-correlation()-Y,Z"   
-    ##  [9] "tBodyAccJerk-mean()-X"            "tBodyAccJerk-correlation()-X,Z"  
-    ## [11] "tBodyAccJerk-correlation()-Y,Z"   "tBodyGyro-mean()-X"              
-    ## [13] "tBodyGyro-correlation()-X,Z"      "tBodyGyro-correlation()-Y,Z"     
-    ## [15] "tBodyGyroJerk-mean()-X"           "tBodyGyroJerk-correlation()-X,Z" 
-    ## [17] "tBodyAccMag-arCoeff()3"           "tGravityAccMag-arCoeff()3"       
-    ## [19] "tBodyAccJerkMag-arCoeff()3"       "tBodyGyroMag-arCoeff()3"         
-    ## [21] "tBodyGyroJerkMag-arCoeff()3"      "tBodyGyroJerkMag-arCoeff()4"     
-    ## [23] "fBodyAcc-mean()-X"                "fBodyAcc-maxInds-Y"              
-    ## [25] "fBodyAcc-maxInds-Z"               "fBodyAcc-meanFreq()-X"           
-    ## [27] "fBodyAcc-bandsEnergy()-1,24"      "fBodyAcc-bandsEnergy()-25,48"    
-    ## [29] "fBodyAccJerk-mean()-X"            "fBodyAccJerk-maxInds-Y"          
-    ## [31] "fBodyAccJerk-maxInds-Z"           "fBodyAccJerk-meanFreq()-X"       
-    ## [33] "fBodyAccJerk-bandsEnergy()-1,24"  "fBodyAccJerk-bandsEnergy()-25,48"
-    ## [35] "fBodyGyro-mean()-X"               "fBodyGyro-maxInds-Y"             
-    ## [37] "fBodyGyro-maxInds-Z"              "fBodyGyro-meanFreq()-X"          
-    ## [39] "fBodyGyro-bandsEnergy()-1,24"     "fBodyAccMag-entropy()"           
-    ## [41] "fBodyAccMag-skewness()"           "fBodyBodyAccJerkMag-entropy()"   
-    ## [43] "fBodyBodyAccJerkMag-skewness()"   "fBodyBodyGyroMag-entropy()"      
-    ## [45] "fBodyBodyGyroMag-skewness()"      "fBodyBodyGyroJerkMag-entropy()"  
-    ## [47] "tBodyAcc-mean()-Y"                "tBodyAcc-mean()-Z"               
-    ## [49] "tBodyAcc-std()-X"                 "tGravityAcc-mean()-Y"            
-    ## [51] "tGravityAcc-mean()-Z"             "tGravityAcc-std()-X"             
-    ## [53] "tBodyAccJerk-mean()-Y"            "tBodyAccJerk-mean()-Z"           
-    ## [55] "tBodyAccJerk-std()-X"             "tBodyGyro-mean()-Y"              
-    ## [57] "tBodyGyro-mean()-Z"               "tBodyGyro-std()-X"               
-    ## [59] "tBodyGyroJerk-mean()-Y"           "tBodyGyroJerk-mean()-Z"          
-    ## [61] "tBodyGyroJerk-std()-X"            "tBodyGyroJerk-correlation()-Y,Z" 
-    ## [63] "tBodyAccMag-arCoeff()4"           "tGravityAccMag-arCoeff()4"       
-    ## [65] "tBodyAccJerkMag-arCoeff()4"       "tBodyGyroMag-arCoeff()4"         
-    ## [67] "fBodyAcc-mean()-Y"                "fBodyAcc-mean()-Z"               
-    ## [69] "fBodyAcc-std()-X"                 "fBodyAccJerk-mean()-Y"           
-    ## [71] "fBodyAccJerk-mean()-Z"            "fBodyAccJerk-std()-X"            
-    ## [73] "fBodyGyro-mean()-Y"               "fBodyGyro-mean()-Z"              
-    ## [75] "fBodyGyro-std()-X"                "fBodyGyro-bandsEnergy()-25,48"   
-    ## [77] "fBodyAccMag-kurtosis()"           "fBodyBodyAccJerkMag-kurtosis()"  
-    ## [79] "fBodyBodyGyroMag-kurtosis()"
+    ##  [1] "Subject"                      "Activity"                    
+    ##  [3] "tBodyAccmeanX"                "tBodyAccmeanY"               
+    ##  [5] "tBodyAccmeanZ"                "tGravityAccmeanX"            
+    ##  [7] "tGravityAccmeanY"             "tGravityAccmeanZ"            
+    ##  [9] "tBodyAccJerkmeanX"            "tBodyAccJerkmeanY"           
+    ## [11] "tBodyAccJerkmeanZ"            "tBodyGyromeanX"              
+    ## [13] "tBodyGyromeanY"               "tBodyGyromeanZ"              
+    ## [15] "tBodyGyroJerkmeanX"           "tBodyGyroJerkmeanY"          
+    ## [17] "tBodyGyroJerkmeanZ"           "tBodyAccMagmean"             
+    ## [19] "tGravityAccMagmean"           "tBodyAccJerkMagmean"         
+    ## [21] "tBodyGyroMagmean"             "tBodyGyroJerkMagmean"        
+    ## [23] "fBodyAccmeanX"                "fBodyAccmeanY"               
+    ## [25] "fBodyAccmeanZ"                "fBodyAccmeanFreqX"           
+    ## [27] "fBodyAccmeanFreqY"            "fBodyAccmeanFreqZ"           
+    ## [29] "fBodyAccJerkmeanX"            "fBodyAccJerkmeanY"           
+    ## [31] "fBodyAccJerkmeanZ"            "fBodyAccJerkmeanFreqX"       
+    ## [33] "fBodyAccJerkmeanFreqY"        "fBodyAccJerkmeanFreqZ"       
+    ## [35] "fBodyGyromeanX"               "fBodyGyromeanY"              
+    ## [37] "fBodyGyromeanZ"               "fBodyGyromeanFreqX"          
+    ## [39] "fBodyGyromeanFreqY"           "fBodyGyromeanFreqZ"          
+    ## [41] "fBodyAccMagmean"              "fBodyAccMagmeanFreq"         
+    ## [43] "fBodyBodyAccJerkMagmean"      "fBodyBodyAccJerkMagmeanFreq" 
+    ## [45] "fBodyBodyGyroMagmean"         "fBodyBodyGyroMagmeanFreq"    
+    ## [47] "fBodyBodyGyroJerkMagmean"     "fBodyBodyGyroJerkMagmeanFreq"
+    ## [49] "tBodyAccstdX"                 "tBodyAccstdY"                
+    ## [51] "tBodyAccstdZ"                 "tGravityAccstdX"             
+    ## [53] "tGravityAccstdY"              "tGravityAccstdZ"             
+    ## [55] "tBodyAccJerkstdX"             "tBodyAccJerkstdY"            
+    ## [57] "tBodyAccJerkstdZ"             "tBodyGyrostdX"               
+    ## [59] "tBodyGyrostdY"                "tBodyGyrostdZ"               
+    ## [61] "tBodyGyroJerkstdX"            "tBodyGyroJerkstdY"           
+    ## [63] "tBodyGyroJerkstdZ"            "tBodyAccMagstd"              
+    ## [65] "tGravityAccMagstd"            "tBodyAccJerkMagstd"          
+    ## [67] "tBodyGyroMagstd"              "tBodyGyroJerkMagstd"         
+    ## [69] "fBodyAccstdX"                 "fBodyAccstdY"                
+    ## [71] "fBodyAccstdZ"                 "fBodyAccJerkstdX"            
+    ## [73] "fBodyAccJerkstdY"             "fBodyAccJerkstdZ"            
+    ## [75] "fBodyGyrostdX"                "fBodyGyrostdY"               
+    ## [77] "fBodyGyrostdZ"                "fBodyAccMagstd"              
+    ## [79] "fBodyBodyAccJerkMagstd"       "fBodyBodyGyroMagstd"         
+    ## [81] "fBodyBodyGyroJerkMagstd"

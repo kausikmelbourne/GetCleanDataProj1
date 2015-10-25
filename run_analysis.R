@@ -40,8 +40,9 @@ all_data <- rbind(all_test, all_trn)
 #Identify subset of variables for mean and standard deviation
 feat_mn <- feat[grep("mean", feat$V2), 1 ]
 feat_std <- feat[grep("std", feat$V2), 1 ]
-feat_mn_std <- c(feat_mn, feat_std)
+feat_mn_std <- c(1,2,(feat_mn+2), (feat_std+2))
 all_data_mn_std <- all_data[,feat_mn_std]
+
 
 #Summarise data and create the tidy text file
 tidy_data <- aggregate(all_data_mn_std[-c(1:2)], 
@@ -49,6 +50,10 @@ tidy_data <- aggregate(all_data_mn_std[-c(1:2)],
                        FUN = mean)
 names(tidy_data)[1] <- "Subject"
 names(tidy_data)[2] <- "Activity"
+names(tidy_data) <- gsub("-","",names(tidy_data))
+names(tidy_data) <- gsub("\\(\\)","",names(tidy_data))
+names(tidy_data) <- gsub(",","",names(tidy_data))
+
 
 write.table(tidy_data, file = "tidy_data.txt", row.name=FALSE )
 
